@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34902.65
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "post-office-back", "post-office-back.csproj", "{B879C82C-19B3-4ABF-8F8F-42D6B84F440C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B879C82C-19B3-4ABF-8F8F-42D6B84F440C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B879C82C-19B3-4ABF-8F8F-42D6B84F440C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B879C82C-19B3-4ABF-8F8F-42D6B84F440C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B879C82C-19B3-4ABF-8F8F-42D6B84F440C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D61AD3D-89E5-4CB0-942A-F55955A99C18}
+	EndGlobalSection
+EndGlobal
