@@ -1,14 +1,24 @@
 ﻿using Microsoft.VisualBasic;
 using post_office_back.Models.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace post_office_back.Models
 {
-    public class Shipment(string shipmentNumber, Airport arrivalAirport, string flightNumber, DateAndTime flightDate, ICollection<Bag> bags)
+    [Table("Shipments")]
+    public class Shipment
     {
-        public String ShipmentNumber { get; set; } = shipmentNumber;
-        public Airport ArrivalAirport { get; set; } = arrivalAirport;
-        public String FlightNumber { get; set; } = flightNumber;
-        public DateAndTime FlightDate { get; set; } = flightDate;
-        public ICollection<Bag> Bags { get; set; } = bags;
+        public Shipment(string shipmentNumber, Airport destinationAirport, string flightNumber, DateAndTime flightDate)
+        {
+            ShipmentNumber = shipmentNumber;
+            DestinationAirport = destinationAirport;
+            FlightNumber = flightNumber;
+            FlightDate = flightDate;
+        }
+        public String ShipmentNumber { get; set; }
+        public Airport DestinationAirport { get; set; }
+        public String FlightNumber { get; set; }
+        public DateAndTime FlightDate { get; set; }
+        public ICollection<Bag> Bags { get; set; }
+        public bool IsFinalized { get; set; } = false;
     }
 }
