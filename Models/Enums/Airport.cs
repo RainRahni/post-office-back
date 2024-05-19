@@ -1,4 +1,4 @@
-﻿namespace post_office_back.Models
+﻿namespace post_office_back.Models.Enums
 {
     public enum Airport
     {
