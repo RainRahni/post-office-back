@@ -6,8 +6,14 @@ namespace post_office_back.Dtos
 {
     public class ShipmentDto
     {
-        public ShipmentDto() 
+        public ShipmentDto() { }
+        public ShipmentDto(string shipmentNumber, Airport destinationAirport, string flightNumber, DateTime flightDate)
         {
+            ShipmentNumber = shipmentNumber;
+            DestinationAirport = destinationAirport.ToString();
+            FlightNumber = flightNumber;
+            FlightDate = flightDate;
+            IsFinalized = false;
         }
         public String ShipmentNumber { get; set; }
         public String DestinationAirport { get; set; }

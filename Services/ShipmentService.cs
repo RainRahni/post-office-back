@@ -11,6 +11,7 @@ namespace post_office_back.Services
         private readonly DataContext _dataContext;
         private readonly ValidationService _validationService;
         private readonly IMapper _mapper;
+
         public ShipmentService(DataContext dataContext, ValidationService validationService, IMapper mapper)
         {
             _mapper = mapper;
@@ -21,8 +22,11 @@ namespace post_office_back.Services
         {
             if (_validationService.validateShipement(shipmentDto) == false)
             {
-                return new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
+                Console.WriteLine("adas");
+                return new HttpResponseMessage(System.Net.HttpStatusCode.NotFound);
             }
+
+            Console.WriteLine("adasasdasdasdas");
             Shipment shipment = _mapper.Map<Shipment>(shipmentDto);
 
             _dataContext.Shipments.Add(shipment);

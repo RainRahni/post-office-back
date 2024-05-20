@@ -17,7 +17,7 @@ namespace post_office_back.Services
         internal bool validateShipement(ShipmentDto shipmentDto)
         {
             bool isCorrectShipmentNumber = Regex.IsMatch(shipmentDto.ShipmentNumber, Constants.shipmentNumberPattern);
-            bool isUniqueShipmentNumber = _dataContext.Shipments.Any(e => e.ShipmentNumber != shipmentDto.ShipmentNumber);
+            bool isUniqueShipmentNumber = !_dataContext.Shipments.Any(e => e.ShipmentNumber == shipmentDto.ShipmentNumber);
             bool isCorrectEnumValue = Enum.IsDefined(typeof(Airport), shipmentDto.DestinationAirport);
             bool isCorrectFlightNumber = Regex.IsMatch(shipmentDto.FlightNumber, Constants.flightNumberPattern);
             bool isNotInPast = shipmentDto.FlightDate < DateTime.Now;
