@@ -1,6 +1,6 @@
 ﻿namespace post_office_back.Models
 {
-    public class LetterBag(string BagNumber) : Bag(BagNumber)  
+    public class LetterBag : Bag
     {
         public uint CountOfLetters {get; set;}
         private decimal _weight;
@@ -14,6 +14,10 @@
         {
             get { return _price; }
             set { _price = Math.Round(value, 2); }
+        }
+        public LetterBag(string bagNumber) : base(bagNumber)
+        {
+
         }
     }
 }

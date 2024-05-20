@@ -1,13 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace post_office_back.Models
 {
     [Table("Parcels")]
-    public class Parcel(string parcelNumber, string recipientName, decimal weight, decimal price)
+    public class Parcel
     {
-        public String ParcelNumber { get; } = parcelNumber;
-        public String RecipientName { get; } = recipientName;
-        public decimal Weight { get; set; } = weight;
-        public decimal Price { get; set; } = price;
+        [Key]
+        public String ParcelNumber { get; }
+        public String RecipientName { get; }
+        public decimal Weight { get; set; }
+        public decimal Price { get; set; }
+        public Parcel(string parcelNumber, string recipientName, decimal weight, decimal price)
+        {
+            ParcelNumber = parcelNumber;
+            RecipientName = recipientName;
+            Weight = weight;
+            Price = price;
+        }
     }
 }

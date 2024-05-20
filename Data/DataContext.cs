@@ -10,5 +10,6 @@ namespace post_office_back.Data
 
         }
         public DbSet<Shipment> Shipments { get; set; }
+      
     }
 }
