@@ -4,13 +4,18 @@ using post_office_back.Models;
 
 namespace post_office_back.Dtos
 {
-    public class ShipmentDto(string shipmentNumber, Airport destinationAirport, string flightNumber, DateAndTime flightDate)
+    public class ShipmentDto
     {
-        public String ShipmentNumber { get; set; } = shipmentNumber;
-        public Airport DestinationAirport { get; set; } = destinationAirport;
-        public String FlightNumber { get; set; } = flightNumber;
-        public DateAndTime FlightDate { get; set; } = flightDate;
-        public ICollection<BagDto> Bags { get; set; }
-        public bool IsFinalized { get; set; } = false;
+        public ShipmentDto() 
+        {
+        }
+        public String ShipmentNumber { get; set; }
+        public String DestinationAirport { get; set; }
+        public String FlightNumber { get; set; }
+        public DateTime FlightDate { get; set; }
+        //public ICollection<BagDto> Bags { get; set; }
+        public bool IsFinalized { get; set; }
+      
     }
+
 }
