@@ -7,10 +7,20 @@ namespace post_office_back.Models
     public class Parcel
     {
         [Key]
-        public String ParcelNumber { get; }
-        public String RecipientName { get; }
-        public decimal Weight { get; set; }
-        public decimal Price { get; set; }
+        public String ParcelNumber { get; set; }
+        public String RecipientName { get; set; }
+        private decimal _weight;
+        private decimal _price;
+        public decimal Weight
+        {
+            get { return _weight; }
+            set { _weight = Math.Round(value, 3); }
+        }
+        public decimal Price
+        {
+            get { return _price; }
+            set { _price = Math.Round(value, 2); }
+        }
         public Parcel(string parcelNumber, string recipientName, decimal weight, decimal price)
         {
             ParcelNumber = parcelNumber;

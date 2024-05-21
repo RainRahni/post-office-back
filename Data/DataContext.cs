@@ -10,6 +10,28 @@ namespace post_office_back.Data
 
         }
         public DbSet<Shipment> Shipments { get; set; }
-      
+        public DbSet<Bag> Bags { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Bag>()
+                .HasDiscriminator<string>("Discriminator")
+                .HasValue<LetterBag>("LetterBag")
+                .HasValue<ParcelBag>("ParcelBag");
+
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<LetterBag>()
+                    .Property(b => b.Weight)
+                    .HasPrecision(18, 3);
+            modelBuilder.Entity<LetterBag>()
+                    .Property(b => b.Price)
+                    .HasPrecision(18, 2);
+            modelBuilder.Entity<Parcel>()
+                    .Property(p => p.Weight)
+                    .HasPrecision(18, 3);
+            modelBuilder.Entity<Parcel>()
+                    .Property(p => p.Price)
+                    .HasPrecision(18, 2);
+        }
     }
 }

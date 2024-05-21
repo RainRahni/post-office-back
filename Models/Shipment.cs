@@ -22,6 +22,7 @@ namespace post_office_back.Models
             DestinationAirport = destinationAirport;
             FlightNumber = flightNumber;
             FlightDate = flightDate;
+            Bags = new List<Bag>();
         }
 
     }

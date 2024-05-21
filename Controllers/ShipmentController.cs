@@ -35,7 +35,7 @@ namespace post_office_back.Controllers
         [HttpPost]
         public HttpResponseMessage CreateShipment([FromBody] ShipmentDto shipmentDto)
         {
-            return _shipmentService.CreateShipment(shipmentDto);
+           return _shipmentService.CreateShipment(shipmentDto);
         }
 
         // PUT api/<ValuesController>/5

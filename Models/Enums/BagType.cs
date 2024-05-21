@@ -2,7 +2,7 @@
 {
     public enum BagType
     {
-        LETTER,
-        PARCEL
+        LETTERBAG,
+        PARCELBAG
     }
 }

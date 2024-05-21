@@ -8,6 +8,7 @@ namespace post_office_back.Models
     {
         [Key]
         public String BagNumber { get; set; }
+        public string Discriminator { get; private set; }
         public Bag(string bagNumber)
         {
             BagNumber = bagNumber;

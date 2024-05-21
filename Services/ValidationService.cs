@@ -14,15 +14,32 @@ namespace post_office_back.Services
             _dataContext = dataContext;
         }
 
-        internal bool validateShipement(ShipmentDto shipmentDto)
+        internal void validateBagCreation(string shipmentNumber, string bagNumber)
+        {
+            bool isCorrectShipmentNumber = Regex.IsMatch(shipmentNumber, Constants.shipmentNumberPattern);
+            bool isCorrectBagNumber = Regex.IsMatch(bagNumber, Constants.bagNumberPattern);
+            bool isUniqueBagNumber = !_dataContext.Bags.Any(b  => b.BagNumber == bagNumber);
+            bool isShipmentAvailable = _dataContext.Shipments.Any(s => s.ShipmentNumber.Equals(shipmentNumber) && !s.IsFinalized);
+
+            if (isCorrectShipmentNumber && isCorrectBagNumber && isUniqueBagNumber && isShipmentAvailable)
+            {
+                return;
+            }
+            throw new ArgumentException(Constants.invalidParametersMessage);
+        }
+
+        internal void validateShipementCreation(ShipmentDto shipmentDto)
         {
             bool isCorrectShipmentNumber = Regex.IsMatch(shipmentDto.ShipmentNumber, Constants.shipmentNumberPattern);
-            bool isUniqueShipmentNumber = !_dataContext.Shipments.Any(e => e.ShipmentNumber == shipmentDto.ShipmentNumber);
+            bool isUniqueShipmentNumber = !_dataContext.Shipments.Any(s => s.ShipmentNumber.Equals(shipmentDto.ShipmentNumber));
             bool isCorrectEnumValue = Enum.IsDefined(typeof(Airport), shipmentDto.DestinationAirport);
             bool isCorrectFlightNumber = Regex.IsMatch(shipmentDto.FlightNumber, Constants.flightNumberPattern);
             bool isNotInPast = shipmentDto.FlightDate < DateTime.Now;
-
-            return isCorrectShipmentNumber && isUniqueShipmentNumber && isCorrectEnumValue && isCorrectFlightNumber && isNotInPast;
+            if (isCorrectShipmentNumber && isUniqueShipmentNumber && isCorrectEnumValue && isCorrectFlightNumber && isNotInPast)
+            {
+                return;
+            };
+            throw new ArgumentException(Constants.invalidParametersMessage);
         }
     }
 }

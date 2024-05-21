@@ -5,7 +5,7 @@
         public ICollection<Parcel> Parcels { get; set; }
         public ParcelBag(string bagNumber) : base(bagNumber)
         {
-
+            Parcels = new List<Parcel>();
         }
     }
 }

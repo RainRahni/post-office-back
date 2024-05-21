@@ -19,6 +19,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 builder.Services.AddScoped<ShipmentService>();
 builder.Services.AddScoped<ValidationService>();
+builder.Services.AddScoped<BagService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();

@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using post_office_back.Dtos;
+using post_office_back.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,6 +10,11 @@ namespace post_office_back.Controllers
     [ApiController]
     public class BagController : ControllerBase
     {
+        private readonly BagService _bagService;
+        public BagController(BagService bagService)
+        {
+            _bagService = bagService;
+        }
         // GET: api/<BagController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -24,8 +31,9 @@ namespace post_office_back.Controllers
 
         // POST api/<BagController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public HttpResponseMessage CreateBag([FromBody] BagCreationDto bagCreationDto)
         {
+            return _bagService.CreateBag(bagCreationDto);
         }
 
         // PUT api/<BagController>/5
