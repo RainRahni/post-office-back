@@ -10,6 +10,7 @@ namespace post_office_back.Mapper
         public MappingProfile() 
         {
             CreateMap<ShipmentDto, Shipment>();
+            CreateMap<ParcelCreationDto, Parcel>();
         }
     }
 }

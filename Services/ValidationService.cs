@@ -14,7 +14,7 @@ namespace post_office_back.Services
             _dataContext = dataContext;
         }
 
-        internal void validateBagCreation(string shipmentNumber, string bagNumber)
+        internal void ValidateBagCreation(string shipmentNumber, string bagNumber)
         {
             bool isCorrectShipmentNumber = Regex.IsMatch(shipmentNumber, Constants.shipmentNumberPattern);
             bool isCorrectBagNumber = Regex.IsMatch(bagNumber, Constants.bagNumberPattern);
@@ -28,7 +28,27 @@ namespace post_office_back.Services
             throw new ArgumentException(Constants.invalidParametersMessage);
         }
 
-        internal void validateShipementCreation(ShipmentDto shipmentDto)
+        internal void ValidateParcelCreation(ParcelCreationDto parcelCreationDto)
+        {
+            bool isCorrectParcelNumber = Regex.IsMatch(parcelCreationDto.ParcelNumber, Constants.parcelNumberPattern);
+            bool isCorrectBagNumber = Regex.IsMatch(parcelCreationDto.BagNumber, Constants.bagNumberPattern);
+            bool isCorrectDestinationCounrty = Regex.IsMatch(parcelCreationDto.DestinationCountry, Constants.destinationCountryPattern);
+            bool isCorrectRecipientNameLength = parcelCreationDto.RecipientName.Length <= Constants.recipientNameMaxLength;
+            bool isBagPresent = _dataContext.Bags.Any(b => b.BagNumber.Equals(parcelCreationDto.BagNumber));
+            bool isNotFinalizedShipment = _dataContext.Shipments.Any(s => s.Bags.Any(b => b.BagNumber.Equals(parcelCreationDto.BagNumber))
+                && !s.IsFinalized);
+            bool isBagCorrectType = _dataContext.Bags.Any(b => b.BagNumber.Equals(parcelCreationDto.BagNumber)
+                && (b.Discriminator == null || b.Discriminator.Equals(BagType.PARCELBAG.ToString())));
+            
+            if (isCorrectParcelNumber && isCorrectBagNumber && isCorrectDestinationCounrty && isCorrectRecipientNameLength && isBagPresent 
+                && isNotFinalizedShipment && isBagCorrectType)
+            {
+                return;
+            }
+            throw new ArgumentException(Constants.invalidParametersMessage);
+        }
+
+        internal void ValidateShipementCreation(ShipmentDto shipmentDto)
         {
             bool isCorrectShipmentNumber = Regex.IsMatch(shipmentDto.ShipmentNumber, Constants.shipmentNumberPattern);
             bool isUniqueShipmentNumber = !_dataContext.Shipments.Any(s => s.ShipmentNumber.Equals(shipmentDto.ShipmentNumber));

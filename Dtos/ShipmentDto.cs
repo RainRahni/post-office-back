@@ -19,7 +19,7 @@ namespace post_office_back.Dtos
         public String DestinationAirport { get; set; }
         public String FlightNumber { get; set; }
         public DateTime FlightDate { get; set; }
-        //public ICollection<BagDto> Bags { get; set; }
+        public ICollection<BagDto> Bags { get; set; }
         public bool IsFinalized { get; set; }
       
     }

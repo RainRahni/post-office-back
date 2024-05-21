@@ -22,7 +22,7 @@ namespace post_office_back.Services
             String shipmentNumber = bagCreationDto.ShipmentNumber;
             try
             {
-                _validationService.validateBagCreation(shipmentNumber, bagNumber);
+                _validationService.ValidateBagCreation(shipmentNumber, bagNumber);
             }
             catch (ArgumentException ex)
             {

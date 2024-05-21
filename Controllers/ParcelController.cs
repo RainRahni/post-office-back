@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using post_office_back.Dtos;
+using post_office_back.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,6 +10,7 @@ namespace post_office_back.Controllers
     [ApiController]
     public class ParcelController : ControllerBase
     {
+        private readonly ParcelService _parcelService;
         // GET: api/<ParcelController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -24,8 +27,9 @@ namespace post_office_back.Controllers
 
         // POST api/<ParcelController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public HttpResponseMessage CreateParcel([FromBody] ParcelCreationDto parcelCreationDto)
         {
+            return _parcelService.CreateParcel(parcelCreationDto);
         }
 
         // PUT api/<ParcelController>/5

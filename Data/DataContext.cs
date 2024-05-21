@@ -15,8 +15,8 @@ namespace post_office_back.Data
         {
             modelBuilder.Entity<Bag>()
                 .HasDiscriminator<string>("Discriminator")
-                .HasValue<LetterBag>("LetterBag")
-                .HasValue<ParcelBag>("ParcelBag");
+                .HasValue<LetterBag>("LETTERBAG")
+                .HasValue<ParcelBag>("PARCELBAG");
 
             base.OnModelCreating(modelBuilder);
 
@@ -33,5 +33,6 @@ namespace post_office_back.Data
                     .Property(p => p.Price)
                     .HasPrecision(18, 2);
         }
+        public DbSet<post_office_back.Models.Parcel> Parcel { get; set; } = default!;
     }
 }

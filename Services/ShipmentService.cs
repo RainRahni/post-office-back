@@ -25,7 +25,7 @@ namespace post_office_back.Services
         {
             try
             {
-                _validationService.validateShipementCreation(shipmentDto);
+                _validationService.ValidateShipementCreation(shipmentDto);
             } catch (ArgumentException ex) {
                 var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
