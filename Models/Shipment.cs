@@ -14,7 +14,7 @@ namespace post_office_back.Models
         public Airport DestinationAirport { get; set; }
         public String FlightNumber { get; set; }
         public DateTime FlightDate { get; set; }
-        public ICollection<Bag> Bags { get; set; }
+        public List<Bag> Bags { get; set; }
         public bool IsFinalized { get; set; } = false;
         public Shipment(string shipmentNumber, Airport destinationAirport, string flightNumber, DateTime flightDate)
         {

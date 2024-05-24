@@ -5,6 +5,7 @@ namespace post_office_back.Services
 {
     public interface IShipmentService
     {
-        HttpResponseMessage CreateShipment(ShipmentDto shipmentDto);
+        HttpResponseMessage CreateShipment(ShipmentCreationDto shipmentDto);
+        HttpResponseMessage FinalizeShipment(string shipmentNumber);
     }
 }

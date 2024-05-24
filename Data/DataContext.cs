@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using post_office_back.Models;
+using post_office_back.Models.Enums;
 
 namespace post_office_back.Data
 {
@@ -32,7 +33,12 @@ namespace post_office_back.Data
             modelBuilder.Entity<Parcel>()
                     .Property(p => p.Price)
                     .HasPrecision(18, 2);
+            modelBuilder.Entity<Shipment>()
+                .Property(s => s.DestinationAirport)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => (Airport)Enum.Parse(typeof(Airport), v));
         }
-        public DbSet<post_office_back.Models.Parcel> Parcel { get; set; } = default!;
+        public DbSet<Parcel> Parcel { get; set; } = default!;
     }
 }

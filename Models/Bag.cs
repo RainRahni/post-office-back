@@ -12,6 +12,7 @@ namespace post_office_back.Models
         public Bag(string bagNumber)
         {
             BagNumber = bagNumber;
+
         }
 
     }

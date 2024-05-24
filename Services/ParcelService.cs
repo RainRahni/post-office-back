@@ -35,11 +35,9 @@ namespace post_office_back.Services
             }
             Bag bag = _dataContext.Bags.First(b => b.BagNumber.Equals(parcelCreationDto.BagNumber));
             Parcel parcel = _mapper.Map<Parcel>(parcelCreationDto);
-            if (bag.Discriminator.Equals(BagType.PARCELBAG.ToString()))
+            if (bag is ParcelBag currentBag)
             {
-
-                ParcelBag parcelBag = bag as ParcelBag;
-                parcelBag.Parcels.Add(parcel);
+                currentBag.Parcels.Add(parcel);
             } 
             else
             {
@@ -47,15 +45,18 @@ namespace post_office_back.Services
                 ParcelBag parcelBag = new ParcelBag(bag.BagNumber);
                 parcelBag.Parcels.Add(parcel);
                 String bagNumber = bag.BagNumber;
-                Shipment shipment = _dataContext.Shipments.First(s => s.Bags.Any(b => b.BagNumber.Equals(parcelCreationDto.BagNumber)));
+                Shipment shipment = _dataContext.Shipments.First(s => s.Bags.Any(b => b.BagNumber.Equals(bagNumber)));
+                Console.WriteLine(shipment.Bags);
                 shipment.Bags.Remove(bag);
                 shipment.Bags.Add(parcelBag);
                 _dataContext.Bags.Remove(bag);
                 _dataContext.Bags.Add(parcelBag);
+                Console.WriteLine(shipment.Bags);
+
             }
 
             _dataContext.SaveChanges();
-            return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }
 }

@@ -21,24 +21,45 @@ namespace post_office_back.Services
             _dataContext = dataContext;
             _validationService = validationService;
         }
-        public HttpResponseMessage CreateShipment(ShipmentDto shipmentDto)
+        public HttpResponseMessage CreateShipment(ShipmentCreationDto shipmentCreationDto)
         {
             try
             {
-                _validationService.ValidateShipementCreation(shipmentDto);
-            } catch (ArgumentException ex) {
+                _validationService.ValidateShipementCreation(shipmentCreationDto);
+            } 
+            catch (ArgumentException ex) 
+            {
                 var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
                 {
                     Content = new StringContent(ex.Message)
                 };
                 return response;
             }
-            Shipment shipment = _mapper.Map<Shipment>(shipmentDto);
+            Shipment shipment = _mapper.Map<Shipment>(shipmentCreationDto);
 
             _dataContext.Shipments.Add(shipment);
             _dataContext.SaveChanges();
-            return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
+        public HttpResponseMessage FinalizeShipment(string shipmentNumber)
+        {
+            try
+            {
+                _validationService.ValidateShipmentFinalization(shipmentNumber);
+            } 
+            catch (ArgumentException ex)
+            {
+                var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+                return response;
+            }
+            Shipment shipment = _dataContext.Shipments.First(s => s.ShipmentNumber.Equals(shipmentNumber));
+            shipment.IsFinalized = true;
+            _dataContext.SaveChanges();
+            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
     }
 }

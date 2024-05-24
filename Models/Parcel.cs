@@ -22,12 +22,13 @@ namespace post_office_back.Models
             get { return _price; }
             set { _price = Math.Round(value, 2); }
         }
-        public Parcel(string parcelNumber, string recipientName, decimal weight, decimal price)
+        public Parcel(string parcelNumber, string recipientName, string destinationCountry, decimal weight, decimal price)
         {
             ParcelNumber = parcelNumber;
             RecipientName = recipientName;
             Weight = weight;
             Price = price;
+            DestinationCountry = destinationCountry;
         }
     }
 }

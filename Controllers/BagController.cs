@@ -35,6 +35,12 @@ namespace post_office_back.Controllers
         {
             return _bagService.CreateBag(bagCreationDto);
         }
+        // POST api/<BagController>
+        [HttpPost("Letters")]
+        public HttpResponseMessage AddLetters([FromBody] LetterAddingDto letterAddingDto)
+        {
+            return _bagService.AddLetters(letterAddingDto);
+        }
 
         // PUT api/<BagController>/5
         [HttpPut("{id}")]

@@ -32,10 +32,17 @@ namespace post_office_back.Controllers
         }
 
         // POST api/
-        [HttpPost]
-        public HttpResponseMessage CreateShipment([FromBody] ShipmentDto shipmentDto)
+        [HttpPost("Initial")]
+        public HttpResponseMessage CreateShipment([FromBody] ShipmentCreationDto shipmentCreationDto)
         {
-           return _shipmentService.CreateShipment(shipmentDto);
+           return _shipmentService.CreateShipment(shipmentCreationDto);
+        }
+
+        // POST api/
+        [HttpPost("Final")]
+        public HttpResponseMessage FinalizeShipment([FromQuery] string shipmentNumber)
+        {
+            return _shipmentService.FinalizeShipment(shipmentNumber);
         }
 
         // PUT api/<ValuesController>/5

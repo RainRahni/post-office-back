@@ -3,8 +3,8 @@
     public class LetterBag : Bag
     {
         public uint CountOfLetters {get; set;}
-        private decimal _weight;
-        private decimal _price;
+        private decimal _weight = 0;
+        private decimal _price = 0;
         public decimal Weight
         {
             get { return _weight; }
@@ -18,6 +18,15 @@
         public LetterBag(string bagNumber) : base(bagNumber)
         {
 
+        }
+        public void AddLetters(uint numberOfLetters)
+        {
+            if (numberOfLetters <= 0)
+            {
+                throw new ArgumentException(Constants.negativeNumberOfLettersMessage);
+            }
+
+            CountOfLetters += numberOfLetters;
         }
     }
 }
