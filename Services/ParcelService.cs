@@ -2,6 +2,7 @@
 using post_office_back.Data;
 using post_office_back.Dtos;
 using post_office_back.Models;
+using post_office_back.Models.Enums;
 using System.Net;
 
 namespace post_office_back.Services
@@ -34,16 +35,23 @@ namespace post_office_back.Services
             }
             Bag bag = _dataContext.Bags.First(b => b.BagNumber.Equals(parcelCreationDto.BagNumber));
             Parcel parcel = _mapper.Map<Parcel>(parcelCreationDto);
-            if (bag.Discriminator.Equals("PARCELBAG"))
+            if (bag.Discriminator.Equals(BagType.PARCELBAG.ToString()))
             {
+
                 ParcelBag parcelBag = bag as ParcelBag;
                 parcelBag.Parcels.Add(parcel);
-            } else
+            } 
+            else
             {
+
+                ParcelBag parcelBag = new ParcelBag(bag.BagNumber);
+                parcelBag.Parcels.Add(parcel);
                 String bagNumber = bag.BagNumber;
                 Shipment shipment = _dataContext.Shipments.First(s => s.Bags.Any(b => b.BagNumber.Equals(parcelCreationDto.BagNumber)));
                 shipment.Bags.Remove(bag);
-
+                shipment.Bags.Add(parcelBag);
+                _dataContext.Bags.Remove(bag);
+                _dataContext.Bags.Add(parcelBag);
             }
 
             _dataContext.SaveChanges();

@@ -11,6 +11,11 @@ namespace post_office_back.Controllers
     public class ParcelController : ControllerBase
     {
         private readonly ParcelService _parcelService;
+
+        public ParcelController(ParcelService parcelService)
+        {
+            _parcelService = parcelService;
+        }
         // GET: api/<ParcelController>
         [HttpGet]
         public IEnumerable<string> Get()

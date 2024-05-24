@@ -2,7 +2,7 @@
 
 namespace post_office_back.Services
 {
-    public class IParcelService
+    public interface IParcelService
     {
         HttpResponseMessage CreateParcel(ParcelCreationDto parcelCreationDto);
     }

@@ -38,8 +38,8 @@ namespace post_office_back.Services
             bool isNotFinalizedShipment = _dataContext.Shipments.Any(s => s.Bags.Any(b => b.BagNumber.Equals(parcelCreationDto.BagNumber))
                 && !s.IsFinalized);
             bool isBagCorrectType = _dataContext.Bags.Any(b => b.BagNumber.Equals(parcelCreationDto.BagNumber)
-                && (b.Discriminator == null || b.Discriminator.Equals(BagType.PARCELBAG.ToString())));
-            
+                && (b.Discriminator.Equals(BagType.BAG.ToString()) || b.Discriminator.Equals(BagType.PARCELBAG.ToString())));
+            Console.WriteLine(isBagCorrectType);
             if (isCorrectParcelNumber && isCorrectBagNumber && isCorrectDestinationCounrty && isCorrectRecipientNameLength && isBagPresent 
                 && isNotFinalizedShipment && isBagCorrectType)
             {

@@ -6,6 +6,12 @@ namespace post_office_back.Dtos
 {
     public class ShipmentDto
     {
+        public String ShipmentNumber { get; set; }
+        public String DestinationAirport { get; set; }
+        public String FlightNumber { get; set; }
+        public DateTime FlightDate { get; set; }
+        public ICollection<BagDto> Bags { get; set; }
+        public bool IsFinalized { get; set; }
         public ShipmentDto() { }
         public ShipmentDto(string shipmentNumber, Airport destinationAirport, string flightNumber, DateTime flightDate)
         {
@@ -15,12 +21,7 @@ namespace post_office_back.Dtos
             FlightDate = flightDate;
             IsFinalized = false;
         }
-        public String ShipmentNumber { get; set; }
-        public String DestinationAirport { get; set; }
-        public String FlightNumber { get; set; }
-        public DateTime FlightDate { get; set; }
-        public ICollection<BagDto> Bags { get; set; }
-        public bool IsFinalized { get; set; }
+
       
     }
 
