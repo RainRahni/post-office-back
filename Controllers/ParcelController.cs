@@ -11,42 +11,28 @@ namespace post_office_back.Controllers
     public class ParcelController : ControllerBase
     {
         private readonly ParcelService _parcelService;
+        private readonly ILogger<ParcelController> _logger;
 
-        public ParcelController(ParcelService parcelService)
+        public ParcelController(ParcelService parcelService, ILogger<ParcelController> logger)
         {
             _parcelService = parcelService;
-        }
-        // GET: api/<ParcelController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<ParcelController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
+            _logger = logger;
         }
 
         // POST api/<ParcelController>
         [HttpPost]
-        public HttpResponseMessage CreateParcel([FromBody] ParcelCreationDto parcelCreationDto)
+        public IActionResult CreateParcel([FromBody] ParcelCreationDto parcelCreationDto)
         {
-            return _parcelService.CreateParcel(parcelCreationDto);
-        }
-
-        // PUT api/<ParcelController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ParcelController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            try
+            {
+                _parcelService.CreateParcel(parcelCreationDto);
+            }
+            catch (ArgumentException ex) 
+            {
+                _logger.LogError("Failed to create parcel!");
+                return BadRequest(ex.Message);
+            }
+            return Ok();
         }
     }
 }

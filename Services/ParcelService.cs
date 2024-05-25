@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using post_office_back.Data;
 using post_office_back.Dtos;
 using post_office_back.Models;
@@ -19,20 +20,9 @@ namespace post_office_back.Services
             _validationService = validationService;
             _mapper = mapper;
         }
-        public HttpResponseMessage CreateParcel(ParcelCreationDto parcelCreationDto)
+        public void CreateParcel(ParcelCreationDto parcelCreationDto)
         {
-            try
-            {
-                _validationService.ValidateParcelCreation(parcelCreationDto);
-            }
-            catch (ArgumentException ex)
-            {
-                var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                    Content = new StringContent(ex.Message)
-                };
-                return response;
-            }
+            _validationService.ValidateParcelCreation(parcelCreationDto);
             Bag bag = _dataContext.Bags.First(b => b.BagNumber.Equals(parcelCreationDto.BagNumber));
             Parcel parcel = _mapper.Map<Parcel>(parcelCreationDto);
             if (bag is ParcelBag currentBag)
@@ -45,18 +35,15 @@ namespace post_office_back.Services
                 ParcelBag parcelBag = new ParcelBag(bag.BagNumber);
                 parcelBag.Parcels.Add(parcel);
                 String bagNumber = bag.BagNumber;
-                Shipment shipment = _dataContext.Shipments.First(s => s.Bags.Any(b => b.BagNumber.Equals(bagNumber)));
-                Console.WriteLine(shipment.Bags);
+                Shipment shipment = _dataContext.Shipments.Include(s => s.Bags).First(s => s.Bags.Any(b => b.BagNumber.Equals(bagNumber)));
                 shipment.Bags.Remove(bag);
                 shipment.Bags.Add(parcelBag);
                 _dataContext.Bags.Remove(bag);
                 _dataContext.Bags.Add(parcelBag);
-                Console.WriteLine(shipment.Bags);
 
             }
 
             _dataContext.SaveChanges();
-            return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }
 }

@@ -33,6 +33,7 @@ namespace post_office_back.Migrations
                         .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("ShipmentNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("BagNumber");
@@ -56,6 +57,7 @@ namespace post_office_back.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParcelBagBagNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Price")
@@ -132,16 +134,24 @@ namespace post_office_back.Migrations
 
             modelBuilder.Entity("post_office_back.Models.Bag", b =>
                 {
-                    b.HasOne("post_office_back.Models.Shipment", null)
+                    b.HasOne("post_office_back.Models.Shipment", "Shipment")
                         .WithMany("Bags")
-                        .HasForeignKey("ShipmentNumber");
+                        .HasForeignKey("ShipmentNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shipment");
                 });
 
             modelBuilder.Entity("post_office_back.Models.Parcel", b =>
                 {
-                    b.HasOne("post_office_back.Models.ParcelBag", null)
+                    b.HasOne("post_office_back.Models.ParcelBag", "ParcelBag")
                         .WithMany("Parcels")
-                        .HasForeignKey("ParcelBagBagNumber");
+                        .HasForeignKey("ParcelBagBagNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParcelBag");
                 });
 
             modelBuilder.Entity("post_office_back.Models.Shipment", b =>

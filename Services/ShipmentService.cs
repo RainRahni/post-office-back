@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Azure.Core;
 using System.Net;
 using Azure;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 namespace post_office_back.Services
 {
     public class ShipmentService : IShipmentService
@@ -21,45 +23,24 @@ namespace post_office_back.Services
             _dataContext = dataContext;
             _validationService = validationService;
         }
-        public HttpResponseMessage CreateShipment(ShipmentCreationDto shipmentCreationDto)
+        public void CreateShipment(ShipmentCreationDto shipmentCreationDto)
         {
-            try
-            {
-                _validationService.ValidateShipementCreation(shipmentCreationDto);
-            } 
-            catch (ArgumentException ex) 
-            {
-                var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                    Content = new StringContent(ex.Message)
-                };
-                return response;
-            }
+            _validationService.ValidateShipementCreation(shipmentCreationDto);
             Shipment shipment = _mapper.Map<Shipment>(shipmentCreationDto);
-
             _dataContext.Shipments.Add(shipment);
             _dataContext.SaveChanges();
-            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
-        public HttpResponseMessage FinalizeShipment(string shipmentNumber)
+        public void FinalizeShipment(string shipmentNumber)
         {
-            try
-            {
-                _validationService.ValidateShipmentFinalization(shipmentNumber);
-            } 
-            catch (ArgumentException ex)
-            {
-                var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                    Content = new StringContent(ex.Message)
-                };
-                return response;
-            }
-            Shipment shipment = _dataContext.Shipments.First(s => s.ShipmentNumber.Equals(shipmentNumber));
+            _validationService.ValidateShipmentFinalization(shipmentNumber);
+            Shipment shipment = _dataContext.Shipments.Include(s => s.Bags).First(s => s.ShipmentNumber.Equals(shipmentNumber));
             shipment.IsFinalized = true;
             _dataContext.SaveChanges();
-            return new HttpResponseMessage(HttpStatusCode.OK);
+        }
+        public int ReadAllShipments() 
+        {
+            return _dataContext.Shipments.Include(s => s.Bags).ToList().ElementAt(0).Bags.Count();
         }
     }
 }

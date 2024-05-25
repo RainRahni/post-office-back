@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using post_office_back.Data;
 using post_office_back.Dtos;
 using post_office_back.Models;
@@ -48,7 +49,6 @@ namespace post_office_back.Services
 
             bool isBagCorrectType = _dataContext.Bags.Any(b => b.BagNumber.Equals(parcelCreationDto.BagNumber)
                 && (b.Discriminator.Equals(BagType.BAG.ToString()) || b.Discriminator.Equals(BagType.PARCELBAG.ToString())));
-            Console.WriteLine(isBagCorrectType);
             if (!(isCorrectParcelNumber && isCorrectBagNumber && isCorrectDestinationCounrty && isCorrectRecipientNameLength && isBagPresent 
                 && isNotFinalizedShipment && isBagCorrectType))
             {
@@ -79,22 +79,27 @@ namespace post_office_back.Services
             bool isCorrectShipmentNumber = Regex.IsMatch(shipmentNumber, Constants.shipmentNumberPattern);
             bool isNotInPast = _dataContext.Shipments.Any(s => s.ShipmentNumber.Equals(shipmentNumber) && s.FlightDate > DateTime.Now);
             bool isNotFinalized = _dataContext.Shipments.Any(s => s.ShipmentNumber.Equals(shipmentNumber) && !s.IsFinalized);
-            List<Bag> Bags = _dataContext.Shipments.First(s => s.ShipmentNumber.Equals(shipmentNumber)).Bags;
+            List<Bag> Bags = (List<Bag>) _dataContext.Shipments.Include(s => s.Bags).First(s => s.ShipmentNumber.Equals(shipmentNumber)).Bags;
             int bagsLength = Bags.Count();
             bool isEmpty = bagsLength == 0;
-            Console.WriteLine(bagsLength);
             for (int i = 0; i < bagsLength; i++)
             {
                 Bag currentBag = Bags.ElementAt(i);
                 if (currentBag is ParcelBag parcelBag)
                 {
+                    _dataContext.Entry(parcelBag)
+                        .Collection(pb => pb.Parcels)
+                        .Load();
+
                     isEmpty = parcelBag.Parcels.Count() == 0;
+                    Console.WriteLine(isEmpty);
                 }
                 if (isEmpty)
                 {
                     break;
                 }
             }
+
             if (!(isCorrectShipmentNumber && isNotInPast && isNotFinalized && !isEmpty))
             {
                throw new ArgumentException(Constants.cannotFinalizeShipmentMessage);

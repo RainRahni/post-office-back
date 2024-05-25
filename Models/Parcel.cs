@@ -9,6 +9,10 @@ namespace post_office_back.Models
         [Key]
         public String ParcelNumber { get; set; }
         public String RecipientName { get; set; }
+        [ForeignKey("ParcelBagBagNumber")]
+
+        public String ParcelBagBagNumber;
+        public ParcelBag ParcelBag = null!;
         public String DestinationCountry { get; set; }
         private decimal _weight;
         private decimal _price;

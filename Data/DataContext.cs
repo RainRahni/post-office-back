@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using post_office_back.Models;
 using post_office_back.Models.Enums;
+using System.Reflection.Metadata;
 
 namespace post_office_back.Data
 {
@@ -19,7 +20,6 @@ namespace post_office_back.Data
                 .HasValue<LetterBag>("LETTERBAG")
                 .HasValue<ParcelBag>("PARCELBAG");
 
-            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<LetterBag>()
                     .Property(b => b.Weight)
@@ -38,6 +38,21 @@ namespace post_office_back.Data
                 .HasConversion(
                     v => v.ToString(),
                     v => (Airport)Enum.Parse(typeof(Airport), v));
+
+            modelBuilder.Entity<Bag>()
+                .HasOne(b => b.Shipment)
+                .WithMany(s => s.Bags)
+                .HasForeignKey(b => b.ShipmentNumber);
+
+            modelBuilder.Entity<Parcel>()
+                .HasOne(b => b.ParcelBag)
+                .WithMany(s => s.Parcels)
+                .HasForeignKey(b => b.ParcelBagBagNumber);
+
+
+            base.OnModelCreating(modelBuilder);
+
+
         }
         public DbSet<Parcel> Parcel { get; set; } = default!;
     }

@@ -2,10 +2,9 @@
 {
     public class ParcelBag : Bag
     {
-        public List<Parcel> Parcels { get; set; }
+        public ICollection<Parcel> Parcels { get;} = new List<Parcel>();
         public ParcelBag(string bagNumber) : base(bagNumber)
         {
-            Parcels = new List<Parcel>();
         }
     }
 }

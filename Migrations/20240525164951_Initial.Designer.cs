@@ -12,8 +12,8 @@ using post_office_back.Data;
 namespace post_office_back.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240521141530_AddPrecisionInDatabase")]
-    partial class AddPrecisionInDatabase
+    [Migration("20240525164951_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,7 @@ namespace post_office_back.Migrations
                         .HasColumnType("nvarchar(13)");
 
                     b.Property<string>("ShipmentNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("BagNumber");
@@ -54,7 +55,12 @@ namespace post_office_back.Migrations
                     b.Property<string>("ParcelNumber")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("DestinationCountry")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ParcelBagBagNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Price")
@@ -81,8 +87,9 @@ namespace post_office_back.Migrations
                     b.Property<string>("ShipmentNumber")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("DestinationAirport")
-                        .HasColumnType("int");
+                    b.Property<string>("DestinationAirport")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("FlightDate")
                         .HasColumnType("datetime2");
@@ -116,7 +123,7 @@ namespace post_office_back.Migrations
 
                     b.ToTable("Bags");
 
-                    b.HasDiscriminator().HasValue("LetterBag");
+                    b.HasDiscriminator().HasValue("LETTERBAG");
                 });
 
             modelBuilder.Entity("post_office_back.Models.ParcelBag", b =>
@@ -125,21 +132,29 @@ namespace post_office_back.Migrations
 
                     b.ToTable("Bags");
 
-                    b.HasDiscriminator().HasValue("ParcelBag");
+                    b.HasDiscriminator().HasValue("PARCELBAG");
                 });
 
             modelBuilder.Entity("post_office_back.Models.Bag", b =>
                 {
-                    b.HasOne("post_office_back.Models.Shipment", null)
+                    b.HasOne("post_office_back.Models.Shipment", "Shipment")
                         .WithMany("Bags")
-                        .HasForeignKey("ShipmentNumber");
+                        .HasForeignKey("ShipmentNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Shipment");
                 });
 
             modelBuilder.Entity("post_office_back.Models.Parcel", b =>
                 {
-                    b.HasOne("post_office_back.Models.ParcelBag", null)
+                    b.HasOne("post_office_back.Models.ParcelBag", "ParcelBag")
                         .WithMany("Parcels")
-                        .HasForeignKey("ParcelBagBagNumber");
+                        .HasForeignKey("ParcelBagBagNumber")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParcelBag");
                 });
 
             modelBuilder.Entity("post_office_back.Models.Shipment", b =>

@@ -2,6 +2,7 @@
 using post_office_back.Models.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace post_office_back.Models
 {
@@ -14,7 +15,7 @@ namespace post_office_back.Models
         public Airport DestinationAirport { get; set; }
         public String FlightNumber { get; set; }
         public DateTime FlightDate { get; set; }
-        public List<Bag> Bags { get; set; }
+        public ICollection<Bag> Bags { get; } = new List<Bag>();
         public bool IsFinalized { get; set; } = false;
         public Shipment(string shipmentNumber, Airport destinationAirport, string flightNumber, DateTime flightDate)
         {
@@ -22,7 +23,6 @@ namespace post_office_back.Models
             DestinationAirport = destinationAirport;
             FlightNumber = flightNumber;
             FlightDate = flightDate;
-            Bags = new List<Bag>();
         }
 
     }
