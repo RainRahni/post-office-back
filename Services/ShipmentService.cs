@@ -13,11 +13,11 @@ namespace post_office_back.Services
 {
     public class ShipmentService : IShipmentService
     {
-        private readonly DataContext _dataContext;
-        private readonly ValidationService _validationService;
+        private readonly IDataContext _dataContext;
+        private readonly IValidationService _validationService;
         private readonly IMapper _mapper;
 
-        public ShipmentService(DataContext dataContext, ValidationService validationService, IMapper mapper)
+        public ShipmentService(IDataContext dataContext, IValidationService validationService, IMapper mapper)
         {
             _mapper = mapper;
             _dataContext = dataContext;

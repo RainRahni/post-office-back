@@ -17,6 +17,7 @@ namespace post_office_back.Models
         public DateTime FlightDate { get; set; }
         public ICollection<Bag> Bags { get; } = new List<Bag>();
         public bool IsFinalized { get; set; } = false;
+        public Shipment () { }
         public Shipment(string shipmentNumber, Airport destinationAirport, string flightNumber, DateTime flightDate)
         {
             ShipmentNumber = shipmentNumber;

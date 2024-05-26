@@ -17,9 +17,12 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
 builder.Services.AddScoped<ShipmentService>();
 builder.Services.AddScoped<ValidationService>();
 builder.Services.AddScoped<BagService>();
+builder.Services.AddScoped<IDataContext, DataContext>();
+builder.Services.AddScoped<IValidationService, ValidationService>();
 builder.Services.AddScoped<ParcelService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

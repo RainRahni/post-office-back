@@ -5,14 +5,19 @@ using System.Reflection.Metadata;
 
 namespace post_office_back.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : DbContext, IDataContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) 
         { 
 
         }
         public DbSet<Shipment> Shipments { get; set; }
+        DbSet<Shipment> IDataContext.Shipments => Shipments;
         public DbSet<Bag> Bags { get; set; }
+        DbSet<Bag> IDataContext.Bags => Bags;
+        public DbSet<Parcel> Parcels { get; set; } = default!;
+        DbSet<Parcel> IDataContext.Parcels => Parcels;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Bag>()
@@ -54,6 +59,5 @@ namespace post_office_back.Data
 
 
         }
-        public DbSet<Parcel> Parcel { get; set; } = default!;
     }
 }

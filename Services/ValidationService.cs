@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace post_office_back.Services
 {
-    public class ValidationService
+    public class ValidationService : IValidationService
     {
         private readonly DataContext _dataContext;
         public ValidationService(DataContext dataContext) 
@@ -16,7 +16,7 @@ namespace post_office_back.Services
             _dataContext = dataContext;
         }
 
-        internal void ValidateBagCreation(string shipmentNumber, string bagNumber)
+        public void ValidateBagCreation(string shipmentNumber, string bagNumber)
         {   
             bool isCorrectShipmentNumber = Regex.IsMatch(shipmentNumber, Constants.shipmentNumberPattern);
 
@@ -32,7 +32,7 @@ namespace post_office_back.Services
             }
         }
 
-        internal void ValidateParcelCreation(ParcelCreationDto parcelCreationDto)
+        public void ValidateParcelCreation(ParcelCreationDto parcelCreationDto)
         {
             bool isCorrectParcelNumber = Regex.IsMatch(parcelCreationDto.ParcelNumber, Constants.parcelNumberPattern);
 
@@ -56,7 +56,7 @@ namespace post_office_back.Services
             }
         }
 
-        internal void ValidateShipementCreation(ShipmentCreationDto shipmentCreationDto)
+        public void ValidateShipementCreation(ShipmentCreationDto shipmentCreationDto)
         {
             bool isCorrectShipmentNumber = Regex.IsMatch(shipmentCreationDto.ShipmentNumber, Constants.shipmentNumberPattern);
 
@@ -74,7 +74,7 @@ namespace post_office_back.Services
             };
         }
 
-        internal void ValidateShipmentFinalization(string shipmentNumber)
+        public void ValidateShipmentFinalization(string shipmentNumber)
         {
             bool isCorrectShipmentNumber = Regex.IsMatch(shipmentNumber, Constants.shipmentNumberPattern);
             bool isNotInPast = _dataContext.Shipments.Any(s => s.ShipmentNumber.Equals(shipmentNumber) && s.FlightDate > DateTime.Now);
@@ -105,7 +105,7 @@ namespace post_office_back.Services
                throw new ArgumentException(Constants.cannotFinalizeShipmentMessage);
             }
         }
-        internal void ValidateLetterAdding(LetterAddingDto letterAddingDto)
+        public void ValidateLetterAdding(LetterAddingDto letterAddingDto)
         {
             bool isCorrectBagNumber = Regex.IsMatch(letterAddingDto.BagNumber, Constants.bagNumberPattern);
             bool isCorrectShipmentNumber = Regex.IsMatch(letterAddingDto.ShipmentNumber, Constants.shipmentNumberPattern);
