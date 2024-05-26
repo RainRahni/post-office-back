@@ -35,15 +35,10 @@ namespace post_office_back.Services
             }
             Bag bag = new Bag(bagCreationDto.BagNumber);
             Shipment existingShipment = _dataContext.Shipments.Include(s => s.Bags).First(s => s.ShipmentNumber.Equals(bagCreationDto.ShipmentNumber));
-            Console.WriteLine(existingShipment.Bags.Count());
             bag.ShipmentNumber = shipmentNumber;
             bag.Shipment = existingShipment;
             existingShipment.Bags.Add(bag);
             _dataContext.SaveChanges();
-
-            Console.WriteLine(existingShipment.Bags.Count());
-           
-            Console.WriteLine(_dataContext.Shipments.First(s => s.ShipmentNumber.Equals(bagCreationDto.ShipmentNumber)).Bags.Count());
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
         public HttpResponseMessage AddLetters(LetterAddingDto letterAddingDto)

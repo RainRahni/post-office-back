@@ -31,6 +31,7 @@ namespace post_office_back.Controllers
                 _logger.LogError("Failed to create the bag!");
                 return BadRequest(ex.Message);
             }
+            _logger.LogInformation("Bag created!");
             return Ok();
         }
         // POST api/<BagController>
@@ -46,6 +47,7 @@ namespace post_office_back.Controllers
                 _logger.LogError("Failed to add letters!");
                 return BadRequest(ex.Message);
             }
+            _logger.LogInformation("Letters added!");
             return Ok();
         }
     }

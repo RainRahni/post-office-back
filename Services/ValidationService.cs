@@ -92,7 +92,6 @@ namespace post_office_back.Services
                         .Load();
 
                     isEmpty = parcelBag.Parcels.Count() == 0;
-                    Console.WriteLine(isEmpty);
                 }
                 if (isEmpty)
                 {

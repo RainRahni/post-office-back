@@ -32,6 +32,7 @@ namespace post_office_back.Controllers
                 _logger.LogError("Failed to create parcel!");
                 return BadRequest(ex.Message);
             }
+            _logger.LogInformation("Parcel created!");
             return Ok();
         }
     }
