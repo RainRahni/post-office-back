@@ -4,7 +4,16 @@ using post_office_back.Services;
 using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var AllowSpecificOrigins = "_allowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyMethod();
+                      });
+});
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -34,6 +43,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseRouting();
+
+app.UseCors(AllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 
