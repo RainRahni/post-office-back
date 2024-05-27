@@ -21,7 +21,7 @@ namespace post_office_back.Controllers
         }
         // GET: api/
         [HttpGet]
-        public int READAllShipments()
+        public List<ShipmentRequestDto> ReadAllShipments()
         {
             return _shipmentService.ReadAllShipments();
         }

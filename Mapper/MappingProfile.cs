@@ -13,6 +13,10 @@ namespace post_office_back.Mapper
             CreateMap<ShipmentCreationDto, Shipment>()
                 .ForMember(dest => dest.DestinationAirport, opt => opt.MapFrom(src => Enum.Parse(typeof(Airport), src.DestinationAirport)));
             CreateMap<ParcelCreationDto, Parcel>();
+            CreateMap<Shipment, ShipmentRequestDto>()
+                .ForMember(dest => dest.DestinationAirport, opt => opt.MapFrom(src => src.DestinationAirport.ToString()))
+                .ForMember(date => date.FlightDate, opt => opt.MapFrom(src => src.FlightDate.ToString()))
+                .ForMember(ship => ship.Bags, opt => opt.Ignore());
         }
     }
 }

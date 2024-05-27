@@ -4,6 +4,6 @@
     {
         public string BagNumber { get; set; } = string.Empty;
         public string ShipmentNumber {  get; set; } = string.Empty;
-        public uint NumberOfLetters { get; set; }
+        public int NumberOfLetters { get; set; }
     }
 }

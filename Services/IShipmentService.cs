@@ -8,6 +8,6 @@ namespace post_office_back.Services
     {
         void CreateShipment(ShipmentCreationDto shipmentDto);
         void FinalizeShipment(string shipmentNumber);
-        int ReadAllShipments();  
+        List<ShipmentRequestDto> ReadAllShipments();  
     }
 }

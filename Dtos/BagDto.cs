@@ -2,10 +2,11 @@
 
 namespace post_office_back.Dtos
 {
-    public class BagDto(string bagNumber, int itemCount, BagType bagType)
+    public class BagDto(string bagNumber, int itemCount, string bagType, decimal bagPrice)
     {
         public String BagNumber { get; set; } = bagNumber;
         public int ItemCount { get; set; } = itemCount;
-        public BagType BagType { get; set; } = bagType;
+        public String BagType { get; set; } = bagType;
+        public decimal BagPrice { get; set; } = bagPrice;
     }
 }

@@ -38,9 +38,49 @@ namespace post_office_back.Services
             shipment.IsFinalized = true;
             _dataContext.SaveChanges();
         }
-        public int ReadAllShipments() 
+        public List<ShipmentRequestDto> ReadAllShipments() 
         {
-            return _dataContext.Shipments.Include(s => s.Bags).ToList().ElementAt(0).Bags.Count();
+            List<Shipment> shipments = _dataContext.Shipments.Include(s => s.Bags).ToList(); //.ElementAt(0).Bags.Count();
+            List<ShipmentRequestDto> requestedShipments = new List<ShipmentRequestDto>();
+            foreach (var shipment in shipments)
+            {
+                List<Bag> bags = shipment.Bags.ToList();
+                ShipmentRequestDto reqShipment = _mapper.Map<ShipmentRequestDto>(shipment);
+                List<BagDto> bagDtos = CreateBagDtos(bags);
+                reqShipment.Bags = bagDtos;
+                requestedShipments.Add(reqShipment);
+            }
+            return requestedShipments;
+        }
+        private List<BagDto> CreateBagDtos(List<Bag> bags)
+        {
+            List<BagDto> bagDtos = new List<BagDto>();
+            foreach (var bag in bags)
+            {
+                String bagNumber = bag.BagNumber;
+                int itemCount = 0;
+                string bagType = BagType.BAG.ToString();
+                decimal bagPrice = 0;
+                if (bag is LetterBag letterBag)
+                {
+                    itemCount = letterBag.CountOfLetters;
+                    bagType = BagType.LETTERBAG.ToString();
+                    bagPrice = letterBag.Price * itemCount;
+                }
+                else if (bag is ParcelBag parcelBag)
+                {
+                    _dataContext.Entry(parcelBag)
+                        .Collection(pb => pb.Parcels)
+                        .Load();
+                    itemCount = parcelBag.Parcels.Count();
+
+                    bagType = BagType.PARCELBAG.ToString();
+                    bagPrice = parcelBag.Parcels.Sum(p => p.Price);
+                }
+                BagDto bagDto = new BagDto(bagNumber, itemCount, bagType, bagPrice);
+                bagDtos.Add(bagDto);
+            }
+            return bagDtos;
         }
     }
 }

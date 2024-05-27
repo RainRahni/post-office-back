@@ -2,7 +2,7 @@
 {
     public class LetterBag : Bag
     {
-        public uint CountOfLetters {get; set;}
+        public int CountOfLetters {get; set;}
         private decimal _weight = 0;
         private decimal _price = 0;
         public decimal Weight
@@ -19,7 +19,7 @@
         {
 
         }
-        public void AddLetters(uint numberOfLetters)
+        public void AddLetters(int numberOfLetters)
         {
             if (numberOfLetters <= 0)
             {
