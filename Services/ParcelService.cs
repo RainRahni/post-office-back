@@ -31,7 +31,6 @@ namespace post_office_back.Services
             } 
             else
             {
-
                 ParcelBag parcelBag = new ParcelBag(bag.BagNumber);
                 parcelBag.Parcels.Add(parcel);
                 String bagNumber = bag.BagNumber;
