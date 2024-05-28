@@ -5,10 +5,10 @@ namespace post_office_back.Dtos
 {
     public class ShipmentRequestDto
     {
-        public String ShipmentNumber { get; set; }
-        public String DestinationAirport { get; set; }
-        public String FlightNumber { get; set; }
-        public String FlightDate { get; set; }
+        public String ShipmentNumber { get; set; } = string.Empty;
+        public String DestinationAirport { get; set; } = string.Empty;
+        public String FlightNumber { get; set; } = string.Empty;
+        public String FlightDate { get; set; } = string.Empty;
         public ICollection<BagDto> Bags { get; set; } = new List<BagDto>();
         public bool IsFinalized { get; set; } = false;
         public ShipmentRequestDto() { }

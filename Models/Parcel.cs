@@ -7,13 +7,13 @@ namespace post_office_back.Models
     public class Parcel
     {
         [Key]
-        public String ParcelNumber { get; set; }
-        public String RecipientName { get; set; }
+        public String ParcelNumber { get; set; } = string.Empty;
+        public String RecipientName { get; set; } = string.Empty;
         [ForeignKey("ParcelBagBagNumber")]
 
-        public String ParcelBagBagNumber;
+        public String ParcelBagBagNumber = string.Empty;
         public ParcelBag ParcelBag = null!;
-        public String DestinationCountry { get; set; }
+        public String DestinationCountry { get; set; } = string.Empty;
         private decimal _weight;
         private decimal _price;
         public decimal Weight

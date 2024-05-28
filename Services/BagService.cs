@@ -17,45 +17,21 @@ namespace post_office_back.Services
             _dataContext = dataContext;
             _validationService = validationService;
         }
-        public HttpResponseMessage CreateBag(BagCreationDto bagCreationDto)
+        public void CreateBag(BagCreationDto bagCreationDto)
         {
             String bagNumber = bagCreationDto.BagNumber;
             String shipmentNumber = bagCreationDto.ShipmentNumber;
-            try
-            {
-                _validationService.ValidateBagCreation(shipmentNumber, bagNumber);
-            }
-            catch (ArgumentException ex)
-            {
-                var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                    Content = new StringContent(ex.Message)
-                };
-                return response;
-            }
+            _validationService.ValidateBagCreation(shipmentNumber, bagNumber);
             Bag bag = new Bag(bagCreationDto.BagNumber);
             Shipment existingShipment = _dataContext.Shipments.Include(s => s.Bags).First(s => s.ShipmentNumber.Equals(bagCreationDto.ShipmentNumber));
             bag.ShipmentNumber = shipmentNumber;
             bag.Shipment = existingShipment;
             existingShipment.Bags.Add(bag);
             _dataContext.SaveChanges();
-            return new HttpResponseMessage(HttpStatusCode.OK);
         }
-        public HttpResponseMessage AddLetters(LetterAddingDto letterAddingDto)
+        public void AddLetters(LetterAddingDto letterAddingDto)
         {
-            try
-            {
-                _validationService.ValidateLetterAdding(letterAddingDto);
-            }
-            catch (ArgumentException ex)
-            {
-
-                var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
-                {
-                    Content = new StringContent(ex.Message)
-                };
-                return response;
-            }
+            _validationService.ValidateLetterAdding(letterAddingDto);
             Bag currentBag = _dataContext.Bags.First(b => b.BagNumber.Equals(letterAddingDto.BagNumber));
             if (currentBag is LetterBag letterBag)
             {
@@ -64,7 +40,6 @@ namespace post_office_back.Services
             else if (currentBag is Bag)
             {
                 LetterBag letterB = new LetterBag(currentBag.BagNumber);
-
                 letterB.AddLetters(letterAddingDto.NumberOfLetters);
                 Shipment shipment = _dataContext.Shipments.Include(s => s.Bags)
                     .First(s => s.ShipmentNumber.Equals(letterAddingDto.ShipmentNumber));
@@ -75,9 +50,6 @@ namespace post_office_back.Services
 
             }
             _dataContext.SaveChanges();
-            return new HttpResponseMessage(HttpStatusCode.OK);
-
-
         }
     }
 }

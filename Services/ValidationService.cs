@@ -78,8 +78,11 @@ namespace post_office_back.Services
         public void ValidateShipmentFinalization(string shipmentNumber)
         {
             bool isCorrectShipmentNumber = Regex.IsMatch(shipmentNumber, Constants.shipmentNumberPattern);
+
             bool isNotInPast = _dataContext.Shipments.Any(s => s.ShipmentNumber.Equals(shipmentNumber) && s.FlightDate > DateTime.Now);
+
             bool isNotFinalized = _dataContext.Shipments.Any(s => s.ShipmentNumber.Equals(shipmentNumber) && !s.IsFinalized);
+
             List<Bag> Bags = (List<Bag>) _dataContext.Shipments.Include(s => s.Bags).First(s => s.ShipmentNumber.Equals(shipmentNumber)).Bags;
             int bagsLength = Bags.Count();
             bool isEmpty = bagsLength == 0;
@@ -108,7 +111,9 @@ namespace post_office_back.Services
         public void ValidateLetterAdding(LetterAddingDto letterAddingDto)
         {
             bool isCorrectBagNumber = Regex.IsMatch(letterAddingDto.BagNumber, Constants.bagNumberPattern);
+
             bool isCorrectShipmentNumber = Regex.IsMatch(letterAddingDto.ShipmentNumber, Constants.shipmentNumberPattern);
+
             if (!(isCorrectBagNumber && isCorrectShipmentNumber))
             {
                 throw new ArgumentException(Constants.invalidParametersMessage);

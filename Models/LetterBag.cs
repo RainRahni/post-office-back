@@ -15,10 +15,7 @@
             get { return _price; }
             set { _price = Math.Round(value, 2); }
         }
-        public LetterBag(string bagNumber) : base(bagNumber)
-        {
-
-        }
+        public LetterBag(string bagNumber) : base(bagNumber) { }
         public void AddLetters(int numberOfLetters)
         {
             if (numberOfLetters <= 0)
