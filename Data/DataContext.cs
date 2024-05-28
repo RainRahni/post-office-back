@@ -56,8 +56,6 @@ namespace post_office_back.Data
 
 
             base.OnModelCreating(modelBuilder);
-
-
         }
     }
 }

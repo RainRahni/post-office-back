@@ -9,10 +9,10 @@ namespace post_office_back.Services
 {
     public class BagService : IBagService
     {
-        private readonly DataContext _dataContext;
-        private readonly ValidationService _validationService;
+        private readonly IDataContext _dataContext;
+        private readonly IValidationService _validationService;
 
-        public BagService(DataContext dataContext, ValidationService validationService)
+        public BagService(IDataContext dataContext, IValidationService validationService)
         {
             _dataContext = dataContext;
             _validationService = validationService;
@@ -23,7 +23,8 @@ namespace post_office_back.Services
             String shipmentNumber = bagCreationDto.ShipmentNumber;
             _validationService.ValidateBagCreation(shipmentNumber, bagNumber);
             Bag bag = new Bag(bagCreationDto.BagNumber);
-            Shipment existingShipment = _dataContext.Shipments.Include(s => s.Bags).First(s => s.ShipmentNumber.Equals(bagCreationDto.ShipmentNumber));
+            Shipment existingShipment = _dataContext.Shipments.Include(s => s.Bags).First(s => s.ShipmentNumber.Equals(shipmentNumber));
+
             bag.ShipmentNumber = shipmentNumber;
             bag.Shipment = existingShipment;
             existingShipment.Bags.Add(bag);
