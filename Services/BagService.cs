@@ -33,7 +33,7 @@ namespace post_office_back.Services
         public void AddLetters(LetterAddingDto letterAddingDto)
         {
             _validationService.ValidateLetterAdding(letterAddingDto);
-            Bag currentBag = _dataContext.Bags.First(b => b.BagNumber.Equals(letterAddingDto.BagNumber));
+            Bag currentBag = _dataContext.Bags.Find(letterAddingDto.BagNumber);
             if (currentBag is LetterBag letterBag)
             {
                 letterBag.AddLetters(letterAddingDto.NumberOfLetters);
