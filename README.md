@@ -35,4 +35,4 @@ The application uses the following data structures:
 
 ## Testing
 
-Unit tests are located in the `PostOfficeTests` project.
+Unit tests are located in the `PostOfficeTests` project. Project uses Xunit.
