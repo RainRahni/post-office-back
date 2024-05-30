@@ -8,7 +8,7 @@ namespace post_office_back.Models
     public class Bag
     {
         [Key]
-        public String BagNumber { get; set; }
+        public string BagNumber { get; set; }
         [ForeignKey("ShipmentNumber")]
         public string ShipmentNumber { get; set; } = string.Empty;
         public virtual Shipment Shipment { get; set; } = null!;

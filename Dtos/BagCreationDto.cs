@@ -2,8 +2,8 @@
 {
     public class BagCreationDto
     {
-        public String ShipmentNumber { get; set; } = string.Empty;
-        public String BagNumber { get; set; } = string.Empty;
+        public string ShipmentNumber { get; set; } = string.Empty;
+        public string BagNumber { get; set; } = string.Empty;
         public BagCreationDto(string shipmentNumber, string bagNumber)
         {
             ShipmentNumber = shipmentNumber;

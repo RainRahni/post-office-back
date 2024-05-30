@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using post_office_back.Data;
 using post_office_back.Dtos;
 using post_office_back.Models;
-using System.Net;
 
 namespace post_office_back.Services
 {
@@ -19,8 +17,8 @@ namespace post_office_back.Services
         }
         public void CreateBag(BagCreationDto bagCreationDto)
         {
-            String bagNumber = bagCreationDto.BagNumber;
-            String shipmentNumber = bagCreationDto.ShipmentNumber;
+            string bagNumber = bagCreationDto.BagNumber;
+            string shipmentNumber = bagCreationDto.ShipmentNumber;
             _validationService.ValidateBagCreation(shipmentNumber, bagNumber);
             Bag bag = new Bag(bagCreationDto.BagNumber);
             Shipment existingShipment = _dataContext.Shipments.Include(s => s.Bags).First(s => s.ShipmentNumber.Equals(shipmentNumber));

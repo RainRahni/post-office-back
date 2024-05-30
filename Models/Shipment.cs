@@ -11,9 +11,9 @@ namespace post_office_back.Models
 
     {
         [Key]
-        public String ShipmentNumber { get; set; } = string.Empty;
+        public string ShipmentNumber { get; set; } = string.Empty;
         public Airport DestinationAirport { get; set; }
-        public String FlightNumber { get; set; } = string.Empty;
+        public string FlightNumber { get; set; } = string.Empty;
         public DateTime FlightDate { get; set; }
         public ICollection<Bag> Bags { get; } = new List<Bag>();
         public bool IsFinalized { get; set; } = false;

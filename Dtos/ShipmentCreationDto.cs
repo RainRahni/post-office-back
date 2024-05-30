@@ -6,9 +6,9 @@ namespace post_office_back.Dtos
 {
     public class ShipmentCreationDto
     {
-        public String ShipmentNumber { get; set; } = string.Empty;
-        public String DestinationAirport { get; set; } = String.Empty;
-        public String FlightNumber { get; set; } = string.Empty;
+        public string ShipmentNumber { get; set; } = string.Empty;
+        public string DestinationAirport { get; set; } = String.Empty;
+        public string FlightNumber { get; set; } = string.Empty;
         public DateTime FlightDate { get; set; }
         public bool IsFinalized { get; set; } = false;
         public ShipmentCreationDto() { }

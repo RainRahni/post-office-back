@@ -2,8 +2,6 @@
 using post_office_back.Dtos;
 using post_office_back.Services;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace post_office_back.Controllers
 {
     [Route("api/[controller]")]
@@ -34,7 +32,7 @@ namespace post_office_back.Controllers
             _logger.LogInformation("Bag created!");
             return Ok();
         }
-        // POST api/<BagController>
+        // POST api/<BagController>/Letters
         [HttpPost("Letters")]
         public IActionResult AddLetters([FromBody] LetterAddingDto letterAddingDto)
         {

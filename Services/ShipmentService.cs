@@ -3,12 +3,7 @@ using post_office_back.Data;
 using post_office_back.Dtos;
 using post_office_back.Models;
 using AutoMapper;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Azure.Core;
-using System.Net;
-using Azure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
 namespace post_office_back.Services
 {
     public class ShipmentService : IShipmentService
@@ -57,7 +52,7 @@ namespace post_office_back.Services
             List<BagDto> bagDtos = new List<BagDto>();
             foreach (var bag in bags)
             {
-                String bagNumber = bag.BagNumber;
+                string bagNumber = bag.BagNumber;
                 int itemCount = 0;
                 string bagType = BagType.BAG.ToString();
                 decimal bagPrice = 0;

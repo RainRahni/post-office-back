@@ -19,14 +19,14 @@ namespace post_office_back.Controllers
             _shipmentService = shipmentService;
             _logger = logger;
         }
-        // GET: api/
+        // GET: api/<ShipmentController>
         [HttpGet]
         public List<ShipmentRequestDto> ReadAllShipments()
         {
             return _shipmentService.ReadAllShipments();
         }
 
-        // POST api/
+        // POST api/<ShipmentController/Initial
         [HttpPost("Initial")]
         public IActionResult CreateShipment([FromBody] ShipmentCreationDto shipmentCreationDto)
         {
@@ -43,7 +43,7 @@ namespace post_office_back.Controllers
             return Ok();
         }
 
-        // POST api/
+        // POST api/<ShipmentController/Final
         [HttpPost("Final")]
         public IActionResult FinalizeShipment([FromQuery] string shipmentNumber)
         {
