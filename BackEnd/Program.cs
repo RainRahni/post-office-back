@@ -34,7 +34,7 @@ builder.Services.AddScoped<BagService>();
 builder.Services.AddScoped<IDataContext, DataContext>();
 builder.Services.AddScoped<IValidationService, ValidationService>();
 builder.Services.AddScoped<ParcelService>();
-
+builder.Services.AddTransient<GlobalExceptionHandler>();    
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
@@ -47,6 +47,8 @@ if (app.Environment.IsDevelopment())
 app.UseRouting();
 
 app.UseCors(AllowSpecificOrigins);
+
+app.UseMiddleware<GlobalExceptionHandler>();   
 
 app.UseHttpsRedirection();
 

@@ -28,36 +28,20 @@ namespace post_office_back.Controllers
 
         // POST api/<ShipmentController/Initial
         [HttpPost("Initial")]
-        public IActionResult CreateShipment([FromBody] ShipmentCreationDto shipmentCreationDto)
+        public void CreateShipment([FromBody] ShipmentCreationDto shipmentCreationDto)
         {
-            try
-            {
+
                 _shipmentService.CreateShipment(shipmentCreationDto);
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogError("Failed to create the shipment!");
-                return BadRequest(ex.Message);
-            }
-            _logger.LogInformation("Shipment created!");
-            return Ok();
+                _logger.LogInformation("Shipment created!");
+            
         }
 
         // POST api/<ShipmentController/Final
         [HttpPost("Final")]
-        public IActionResult FinalizeShipment([FromQuery] string shipmentNumber)
+        public void FinalizeShipment([FromQuery] string shipmentNumber)
         {
-            try
-            {
-                _shipmentService.FinalizeShipment(shipmentNumber);
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogError("Failed to finalize the shipment due to invalid input!");
-                return BadRequest(ex.Message);
-            }
+             _shipmentService.FinalizeShipment(shipmentNumber);
             _logger.LogInformation("Shipment finalized!");
-            return Ok();
         }
     }
 }

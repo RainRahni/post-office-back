@@ -35,7 +35,7 @@ namespace post_office_back.Services
         }
         public List<ShipmentRequestDto> ReadAllShipments() 
         {
-            List<Shipment> shipments = _dataContext.Shipments.Include(s => s.Bags).ToList(); //.ElementAt(0).Bags.Count();
+            List<Shipment> shipments = _dataContext.Shipments.Include(s => s.Bags).ToList();
             List<ShipmentRequestDto> requestedShipments = new List<ShipmentRequestDto>();
             foreach (var shipment in shipments)
             {

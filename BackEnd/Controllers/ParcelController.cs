@@ -19,19 +19,10 @@ namespace post_office_back.Controllers
 
         // POST api/<ParcelController>
         [HttpPost]
-        public IActionResult CreateParcel([FromBody] ParcelCreationDto parcelCreationDto)
+        public void CreateParcel([FromBody] ParcelCreationDto parcelCreationDto)
         {
-            try
-            {
-                _parcelService.CreateParcel(parcelCreationDto);
-            }
-            catch (ArgumentException ex) 
-            {
-                _logger.LogError("Failed to create parcel!");
-                return BadRequest(ex.Message);
-            }
+            _parcelService.CreateParcel(parcelCreationDto);
             _logger.LogInformation("Parcel created!");
-            return Ok();
         }
     }
 }

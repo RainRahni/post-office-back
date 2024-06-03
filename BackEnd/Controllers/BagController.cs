@@ -18,35 +18,17 @@ namespace post_office_back.Controllers
 
         // POST api/<BagController>
         [HttpPost]
-        public IActionResult CreateBag([FromBody] BagCreationDto bagCreationDto)
+        public void CreateBag([FromBody] BagCreationDto bagCreationDto)
         {
-            try
-            {
-                _bagService.CreateBag(bagCreationDto);         
-            }
-            catch (ArgumentException ex)
-            {
-                _logger.LogError("Failed to create the bag!");
-                return BadRequest(ex.Message);
-            }
+            _bagService.CreateBag(bagCreationDto);         
             _logger.LogInformation("Bag created!");
-            return Ok();
         }
         // POST api/<BagController>/Letters
         [HttpPost("Letters")]
-        public IActionResult AddLetters([FromBody] LetterAddingDto letterAddingDto)
+        public void AddLetters([FromBody] LetterAddingDto letterAddingDto)
         {
-            try
-            {
-                _bagService.AddLetters(letterAddingDto);
-            }
-            catch(ArgumentException ex)
-            {
-                _logger.LogError("Failed to add letters!");
-                return BadRequest(ex.Message);
-            }
+             _bagService.AddLetters(letterAddingDto);
             _logger.LogInformation("Letters added!");
-            return Ok();
         }
     }
 }

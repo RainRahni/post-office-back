@@ -82,30 +82,33 @@ namespace post_office_back.Services
 
             bool isNotFinalized = _dataContext.Shipments.Any(s => s.ShipmentNumber.Equals(shipmentNumber) && !s.IsFinalized);
 
-            List<Bag> Bags = (List<Bag>) _dataContext.Shipments.Include(s => s.Bags).First(s => s.ShipmentNumber.Equals(shipmentNumber)).Bags;
-            int bagsLength = Bags.Count();
-            bool isEmpty = bagsLength == 0;
-            for (int i = 0; i < bagsLength; i++)
-            {
-                Bag currentBag = Bags.ElementAt(i);
-                if (currentBag is ParcelBag parcelBag)
+            if (isCorrectShipmentNumber && isNotInPast && isNotFinalized) {
+                List<Bag> Bags = (List<Bag>)_dataContext.Shipments.Include(s => s.Bags).First(s => s.ShipmentNumber.Equals(shipmentNumber)).Bags;
+                int bagsLength = Bags.Count();
+                bool isEmpty = bagsLength == 0;
+                for (int i = 0; i < bagsLength; i++)
                 {
-                    _dataContext.Entry(parcelBag)
-                        .Collection(pb => pb.Parcels)
-                        .Load();
+                    Bag currentBag = Bags.ElementAt(i);
+                    if (currentBag is ParcelBag parcelBag)
+                    {
+                        _dataContext.Entry(parcelBag)
+                            .Collection(pb => pb.Parcels)
+                            .Load();
 
-                    isEmpty = parcelBag.Parcels.Count() == 0;
-                }
-                if (isEmpty)
-                {
-                    break;
+                        isEmpty = parcelBag.Parcels.Count() == 0;
+                    }
+                    if (isEmpty)
+                    {
+                        throw new ArgumentException(Constants.cannotFinalizeShipmentMessage);
+                    }
                 }
             }
-
-            if (!(isCorrectShipmentNumber && isNotInPast && isNotFinalized && !isEmpty))
+            else
             {
-               throw new ArgumentException(Constants.cannotFinalizeShipmentMessage);
+                throw new ArgumentException(Constants.cannotFinalizeShipmentMessage);
             }
+           
+
         }
         public void ValidateLetterAdding(LetterAddingDto letterAddingDto)
         {
