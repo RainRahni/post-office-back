@@ -36,3 +36,5 @@ The application uses the following data structures:
 ## Testing
 
 Unit tests are located in the `PostOfficeTests` project. Project uses Xunit.
+To run tests, right click on solution -> Add -> Existing Project -> Choose postofficetests.csproj file.
+Right click on tests project -> Run tests.
