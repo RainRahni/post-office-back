@@ -19,16 +19,11 @@ namespace post_office_back.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<Bag>()
-                .HasDiscriminator<string>("Discriminator")
-                .HasValue<LetterBag>("LETTERBAG")
-                .HasValue<ParcelBag>("PARCELBAG");
-
-
-            modelBuilder.Entity<LetterBag>()
                     .Property(b => b.Weight)
                     .HasPrecision(18, 3);
-            modelBuilder.Entity<LetterBag>()
+            modelBuilder.Entity<Bag>()
                     .Property(b => b.Price)
                     .HasPrecision(18, 2);
             modelBuilder.Entity<Parcel>()
@@ -42,6 +37,12 @@ namespace post_office_back.Data
                 .HasConversion(
                     v => v.ToString(),
                     v => (Airport)Enum.Parse(typeof(Airport), v));
+
+            modelBuilder.Entity<Bag>()
+               .Property(s => s.BagType)
+               .HasConversion(
+                   v => v.ToString(),
+                   v => (BagType)Enum.Parse(typeof(BagType), v));
 
             modelBuilder.Entity<Bag>()
                 .HasOne(b => b.Shipment)

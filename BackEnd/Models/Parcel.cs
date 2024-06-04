@@ -12,7 +12,7 @@ namespace post_office_back.Models
         [ForeignKey("ParcelBagBagNumber")]
 
         public string ParcelBagBagNumber = string.Empty;
-        public ParcelBag ParcelBag = null!;
+        public Bag ParcelBag = null!;
         public string DestinationCountry { get; set; } = string.Empty;
         private decimal _weight;
         private decimal _price;

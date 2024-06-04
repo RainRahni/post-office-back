@@ -74,7 +74,7 @@ namespace PostOfficeTests
                 BagNumber = "BN123"
             };
             var expectedParcel = new Parcel("PN123", "John Doe", "Estonia", 1.5m, 10.0m);
-            var existingBag = new ParcelBag("BN123");
+            var existingBag = new Bag("BN123");
 
             var mockSet = new Mock<DbSet<Parcel>>();
             var mockBagSet = new Mock<DbSet<Bag>>();

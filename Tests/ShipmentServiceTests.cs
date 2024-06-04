@@ -72,10 +72,10 @@ namespace PostOfficeTests
         public void FinalizeShipment_WhenShipmentHasAtLeastOneLetterAndParcelBag_ThenFinalize()
         {
             var shipmentNumber = "000-000000";
-            var letterBag = new LetterBag("LB123");
+            var letterBag = new Bag("LB123");
             letterBag.AddLetters(1);
             var parcel = new Parcel("PN123", "John Doe", "Estonia", 1.5m, 10.0m);
-            var parcelBag = new ParcelBag("PB123");
+            var parcelBag = new Bag("PB123");
             parcelBag.Parcels.Add(parcel);
             var expectedShipment = new ShipmentBuilder()
                 .AddShipmentNumber(shipmentNumber)
@@ -105,10 +105,10 @@ namespace PostOfficeTests
         public void FinalizeShipment_WhenShipmentNrIncorrect_ThenNoFinalization()
         {
             var shipmentNumber = "Wrong";
-            var letterBag = new LetterBag("LB123");
+            var letterBag = new Bag("LB123");
             letterBag.AddLetters(1);
             var parcel = new Parcel("PN123", "John Doe", "Estonia", 1.5m, 10.0m);
-            var parcelBag = new ParcelBag("PB123");
+            var parcelBag = new Bag("PB123");
             parcelBag.Parcels.Add(parcel);
             var expectedShipment = new ShipmentBuilder()
                 .AddShipmentNumber(shipmentNumber)

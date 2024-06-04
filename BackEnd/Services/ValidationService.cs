@@ -47,7 +47,7 @@ namespace post_office_back.Services
                 && !s.IsFinalized);
 
             bool isCorrectBagType = _dataContext.Bags.Any(b => b.BagNumber.Equals(parcelCreationDto.BagNumber)
-                && (b.Discriminator.Equals(BagType.BAG.ToString()) || b.Discriminator.Equals(BagType.PARCELBAG.ToString())));
+                && !(b.BagType.Equals(BagType.LETTERBAG)));
 
             if (!(isCorrectParcelNumber && isCorrectBagNumber && isCorrectDestinationCounrty && isCorrectRecipientNameLength && isBagPresent 
                 && isNotFinalizedShipment && isCorrectBagType))
@@ -89,13 +89,17 @@ namespace post_office_back.Services
                 for (int i = 0; i < bagsLength; i++)
                 {
                     Bag currentBag = Bags.ElementAt(i);
-                    if (currentBag is ParcelBag parcelBag)
+                    if (currentBag.BagType.Equals(BagType.PARCELBAG))
                     {
-                        _dataContext.Entry(parcelBag)
+                        _dataContext.Entry(currentBag)
                             .Collection(pb => pb.Parcels)
                             .Load();
 
-                        isEmpty = parcelBag.Parcels.Count() == 0;
+                        isEmpty = currentBag.Parcels.Count() == 0;
+                    }
+                    else
+                    {
+                        isEmpty = currentBag.CountOfLetters == 0;
                     }
                     if (isEmpty)
                     {
@@ -116,7 +120,8 @@ namespace post_office_back.Services
 
             bool isCorrectShipmentNumber = Regex.IsMatch(letterAddingDto.ShipmentNumber, Constants.shipmentNumberPattern);
 
-            if (!(isCorrectBagNumber && isCorrectShipmentNumber))
+            Bag bag = _dataContext.Bags.First(b => b.BagNumber.Equals(letterAddingDto.BagNumber));    
+            if (!(isCorrectBagNumber && isCorrectShipmentNumber && bag != null && !bag.BagType.Equals(BagType.PARCELBAG)))
             {
                 throw new ArgumentException(Constants.invalidParametersMessage);
             }

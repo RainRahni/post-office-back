@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using post_office_back.Data;
 using post_office_back.Dtos;
 using post_office_back.Models;
+using post_office_back.Models.Enums;
 
 namespace post_office_back.Services
 {
@@ -23,14 +24,14 @@ namespace post_office_back.Services
             _validationService.ValidateParcelCreation(parcelCreationDto);
             Bag bag = _dataContext.Bags.First(b => b.BagNumber.Equals(parcelCreationDto.BagNumber));
             Parcel parcel = _mapper.Map<Parcel>(parcelCreationDto);
-            if (bag is ParcelBag currentBag)
+            if (bag.BagType.Equals(BagType.PARCELBAG))
             {
-                currentBag.Parcels.Add(parcel);
+                bag.Parcels.Add(parcel);
             } 
             else
             {
-                ParcelBag parcelBag = new ParcelBag(bag.BagNumber);
-                parcelBag.Parcels.Add(parcel);
+                Bag parcelBag = new Bag(parcelCreationDto.BagNumber);
+                parcelBag.BagType = BagType.PARCELBAG;
                 string bagNumber = bag.BagNumber;
                 Shipment shipment = _dataContext.Shipments.Include(s => s.Bags).First(s => s.Bags.Any(b => b.BagNumber.Equals(bagNumber)));
                 shipment.Bags.Remove(bag);

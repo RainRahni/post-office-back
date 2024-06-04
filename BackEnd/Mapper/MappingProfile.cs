@@ -17,6 +17,10 @@ namespace post_office_back.Mapper
                 .ForMember(dest => dest.DestinationAirport, opt => opt.MapFrom(src => src.DestinationAirport.ToString()))
                 .ForMember(date => date.FlightDate, opt => opt.MapFrom(src => src.FlightDate.ToString()))
                 .ForMember(ship => ship.Bags, opt => opt.Ignore());
+            CreateMap<BagCreationDto, Bag>();
+            CreateMap<LetterAddingDto, Bag>()
+                .ForMember(dest => dest.ShipmentNumber, opt => opt.MapFrom(src => src.ShipmentNumber))
+                .ForMember(dest => dest.BagNumber, opt => opt.MapFrom(src => src.BagNumber));
         }
     }
 }

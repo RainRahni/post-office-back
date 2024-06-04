@@ -54,23 +54,21 @@ namespace post_office_back.Services
             {
                 string bagNumber = bag.BagNumber;
                 int itemCount = 0;
-                string bagType = BagType.BAG.ToString();
+                string bagType = bag.BagType.ToString();
                 decimal bagPrice = 0;
-                if (bag is LetterBag letterBag)
+                if (bag.BagType.Equals(BagType.LETTERBAG))
                 {
-                    itemCount = letterBag.CountOfLetters;
-                    bagType = BagType.LETTERBAG.ToString();
-                    bagPrice = letterBag.Price * itemCount;
+                    itemCount = (int) bag.CountOfLetters;
+                    bagPrice = bag.Price * itemCount;
                 }
-                else if (bag is ParcelBag parcelBag)
+                else if (bag.BagType.Equals(BagType.PARCELBAG))
                 {
-                    _dataContext.Entry(parcelBag)
+                    _dataContext.Entry(bag)
                         .Collection(pb => pb.Parcels)
                         .Load();
-                    itemCount = parcelBag.Parcels.Count();
+                    itemCount = bag.Parcels.Count();
 
-                    bagType = BagType.PARCELBAG.ToString();
-                    bagPrice = parcelBag.Parcels.Sum(p => p.Price);
+                    bagPrice = bag.Parcels.Sum(p => p.Price);
                 }
                 BagDto bagDto = new BagDto(bagNumber, itemCount, bagType, bagPrice);
                 bagDtos.Add(bagDto);
