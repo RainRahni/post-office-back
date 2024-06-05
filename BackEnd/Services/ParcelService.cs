@@ -22,10 +22,12 @@ namespace post_office_back.Services
         public void CreateParcel(ParcelCreationDto parcelCreationDto)
         {
             _validationService.ValidateParcelCreation(parcelCreationDto);
-            Bag bag = _dataContext.Bags.First(b => b.BagNumber.Equals(parcelCreationDto.BagNumber));
+            Bag bag = _dataContext.Bags.Include(b => b.Parcels)
+                .First(b => b.BagNumber.Equals(parcelCreationDto.BagNumber));
             Parcel parcel = _mapper.Map<Parcel>(parcelCreationDto);
             if (bag.BagType.Equals(BagType.PARCELBAG))
             {
+
                 bag.Parcels.Add(parcel);
             } 
             else

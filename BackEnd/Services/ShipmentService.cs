@@ -58,7 +58,7 @@ namespace post_office_back.Services
                 decimal bagPrice = 0;
                 if (bag.BagType.Equals(BagType.LETTERBAG))
                 {
-                    itemCount = (int) bag.CountOfLetters;
+                    itemCount = (int)bag.CountOfLetters;
                     bagPrice = bag.Price * itemCount;
                 }
                 else if (bag.BagType.Equals(BagType.PARCELBAG))

@@ -14,8 +14,8 @@ namespace post_office_back.Models
         public string ShipmentNumber { get; set; } = string.Empty;
         public virtual Shipment Shipment { get; set; } = null!;
         public BagType BagType { get; set; } = BagType.BAG;
-        public ICollection<Parcel> Parcels { get; } = new List<Parcel>(); 
-        public int? CountOfLetters { get; set; }
+        public ICollection<Parcel> Parcels { get; } = new List<Parcel>();
+        public int CountOfLetters { get; set; } = 0;
         private decimal _weight = 0;
         private decimal _price = 0;
         public Bag(string bagNumber)
